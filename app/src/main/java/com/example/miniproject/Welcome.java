@@ -1,13 +1,11 @@
 package com.example.miniproject;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -39,15 +37,6 @@ public class Welcome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish(); // Close the activity
-            }
-        });
-
-        Button cbutton = findViewById(R.id.cbutton);
-        cbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Welcome.this, Name.class);
-                startActivity(intent);
             }
         });
 

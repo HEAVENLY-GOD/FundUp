@@ -15,9 +15,6 @@
         android:theme="@style/Theme.MiniProject"
         tools:targetApi="31">
         <activity
-            android:name=".Name"
-            android:exported="false" />
-        <activity
             android:name=".Welcome"
             android:exported="false" />
         <activity
