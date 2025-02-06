@@ -1,13 +1,10 @@
 package com.example.miniproject;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -16,30 +13,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Name extends AppCompatActivity {
+public class pass extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_name);
+        setContentView(R.layout.activity_pass);
 
-        // Handle first TextView (JoinStartUp)
-        TextView supTextView = findViewById(R.id.sup);
-        stylesupText(supTextView);
+        TextView t1TextView = findViewById(R.id.t1);
+        stylet1Text(t1TextView);
 
         // Handle second TextView (StartUp with S and u in white)
-        TextView joinTextView = findViewById(R.id.join);
-        stylejoinText(joinTextView);
-
-        Button nameb = findViewById(R.id.nameb);
-        nameb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Name.this, pass.class);
-                startActivity(intent);
-            }
-        });
+        TextView t2TextView = findViewById(R.id.t2);
+        stylet2Text(t2TextView);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -47,7 +34,8 @@ public class Name extends AppCompatActivity {
             return insets;
         });
     }
-    private void stylejoinText(TextView textView) {
+
+    private void stylet2Text(TextView textView) {
         String fullText = "JoinStartUp";
         SpannableString spannableString = new SpannableString(fullText);
 
@@ -70,7 +58,7 @@ public class Name extends AppCompatActivity {
         textView.setText(spannableString);
     }
 
-    private void stylesupText(TextView textView) {
+    private void stylet1Text(TextView textView) {
         String superText = "StartUp";
         SpannableString spannable = new SpannableString(superText);
 
