@@ -128,7 +128,7 @@
             app:dotLottie_autoplay="true"
             app:dotLottie_loop="false"
             app:dotLottie_speed="1"
-            app:dotLottie_src="anime.json"
+            app:dotLottie_src="user.json"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
