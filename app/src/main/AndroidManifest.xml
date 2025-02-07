@@ -21,9 +21,6 @@
             android:name=".pass"
             android:exported="false" />
         <activity
-            android:name=".Password"
-            android:exported="false" />
-        <activity
             android:name=".Name"
             android:exported="false" />
         <activity

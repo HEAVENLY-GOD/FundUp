@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Scroller;
-
+import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -23,8 +21,6 @@ public class slide extends AppCompatActivity {
 
     ViewPager mSLideViewPager;
     LinearLayout mDotLayout;
-    Button bck, nxt, skipbtn;
-
     TextView[] dots;
     ViewPagerAdapter viewPagerAdapter;
 
@@ -43,11 +39,7 @@ public class slide extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize buttons and ViewPager
-        bck = findViewById(R.id.bck);
-        nxt = findViewById(R.id.nxt);
-        skipbtn = findViewById(R.id.skipButton);
-
+        // Initialize ViewPager and indicator layout
         mSLideViewPager = findViewById(R.id.slideViewPager);
         mDotLayout = findViewById(R.id.indicator_layout);
 
@@ -73,25 +65,8 @@ public class slide extends AppCompatActivity {
         setUpindicator(0);
         mSLideViewPager.addOnPageChangeListener(viewListener);
 
-        bck.setOnClickListener(v -> {
-            if (getitem(0) > 0) {
-                mSLideViewPager.setCurrentItem(getitem(-1), true);
-            }
-        });
-
-        nxt.setOnClickListener(v -> {
-            if (getitem(0) < 4) {
-                mSLideViewPager.setCurrentItem(getitem(1), true);
-            } else {
-                // Navigate to the main screen when the last slide is reached
-                Intent i = new Intent(slide.this, MainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
-        skipbtn.setOnClickListener(v -> {
-            // Skip the onboarding and go to the main screen
+        // Skip button to directly go to the main screen
+        findViewById(R.id.skipButton).setOnClickListener(v -> {
             Intent i = new Intent(slide.this, MainActivity.class);
             startActivity(i);
             finish();
@@ -107,7 +82,7 @@ public class slide extends AppCompatActivity {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226"));
             dots[i].setTextSize(35);
-            dots[i].setTextColor(getResources().getColor(R.color.white, getApplicationContext().getTheme()));
+            dots[i].setTextColor(getResources().getColor(R.color.gray, getApplicationContext().getTheme()));
             mDotLayout.addView(dots[i]);
         }
 
@@ -122,22 +97,11 @@ public class slide extends AppCompatActivity {
         @Override
         public void onPageSelected(int position) {
             setUpindicator(position);
-
-            if (position > 0) {
-                bck.setVisibility(View.VISIBLE);
-            } else {
-                bck.setVisibility(View.INVISIBLE);
-            }
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {}
     };
-
-    // Helper method to get the current item position
-    private int getitem(int i) {
-        return mSLideViewPager.getCurrentItem() + i;
-    }
 
     // FadePageTransformer class for smoother animation
     private class FadePageTransformer implements ViewPager.PageTransformer {
