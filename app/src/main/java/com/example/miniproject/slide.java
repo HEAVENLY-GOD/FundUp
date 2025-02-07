@@ -1,5 +1,6 @@
 package com.example.miniproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Scroller;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
+
+import java.lang.reflect.Field;
 
 public class slide extends AppCompatActivity {
 
@@ -50,40 +54,47 @@ public class slide extends AppCompatActivity {
         viewPagerAdapter = new ViewPagerAdapter(this);
         mSLideViewPager.setAdapter(viewPagerAdapter);
 
+        // Apply PageTransformer for smoother animations (simplified fade)
+        mSLideViewPager.setPageTransformer(true, new FadePageTransformer());
+
+        // Customize scroll speed using reflection
+        try {
+            Field scrollerField = ViewPager.class.getDeclaredField("mScroller");
+            scrollerField.setAccessible(true);
+            FixedSpeedScroller scroller = new FixedSpeedScroller(this, 600); // Reduced duration
+            scrollerField.set(mSLideViewPager, scroller);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Set Offscreen Page Limit to preload pages
+        mSLideViewPager.setOffscreenPageLimit(3);
+
         setUpindicator(0);
         mSLideViewPager.addOnPageChangeListener(viewListener);
 
-        bck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getitem(0) > 0) {
-                    mSLideViewPager.setCurrentItem(getitem(-1), true);
-                }
+        bck.setOnClickListener(v -> {
+            if (getitem(0) > 0) {
+                mSLideViewPager.setCurrentItem(getitem(-1), true);
             }
         });
 
-        nxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getitem(0) < 4) {
-                    mSLideViewPager.setCurrentItem(getitem(1), true);
-                } else {
-                    // Navigate to the main screen when the last slide is reached
-                    Intent i = new Intent(slide.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }
-        });
-
-        skipbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Skip the onboarding and go to the main screen
+        nxt.setOnClickListener(v -> {
+            if (getitem(0) < 4) {
+                mSLideViewPager.setCurrentItem(getitem(1), true);
+            } else {
+                // Navigate to the main screen when the last slide is reached
                 Intent i = new Intent(slide.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }
+        });
+
+        skipbtn.setOnClickListener(v -> {
+            // Skip the onboarding and go to the main screen
+            Intent i = new Intent(slide.this, MainActivity.class);
+            startActivity(i);
+            finish();
         });
     }
 
@@ -126,5 +137,33 @@ public class slide extends AppCompatActivity {
     // Helper method to get the current item position
     private int getitem(int i) {
         return mSLideViewPager.getCurrentItem() + i;
+    }
+
+    // FadePageTransformer class for smoother animation
+    private class FadePageTransformer implements ViewPager.PageTransformer {
+        @Override
+        public void transformPage(View view, float position) {
+            view.setAlpha(1 - Math.abs(position));
+        }
+    }
+
+    // FixedSpeedScroller class (inner class)
+    private class FixedSpeedScroller extends Scroller {
+        private int mDuration = 500;  // Reduced duration for smoother transitions
+
+        public FixedSpeedScroller(Context context, int duration) {
+            super(context);
+            mDuration = duration;
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy) {
+            super.startScroll(startX, startY, dx, dy, mDuration);
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+            super.startScroll(startX, startY, dx, dy, mDuration);
+        }
     }
 }
