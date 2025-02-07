@@ -1,10 +1,13 @@
 package com.example.miniproject;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -27,6 +30,15 @@ public class pass extends AppCompatActivity {
         // Handle second TextView (StartUp with S and u in white)
         TextView t2TextView = findViewById(R.id.t2);
         stylet2Text(t2TextView);
+
+        Button scon = findViewById(R.id.scon);
+        scon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(pass.this, slide.class);
+                startActivity(intent);
+            }
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

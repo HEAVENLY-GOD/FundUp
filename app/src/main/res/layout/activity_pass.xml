@@ -32,6 +32,7 @@
 
 
         <Button
+            android:id="@+id/scon"
             android:layout_width="301dp"
             android:layout_height="55dp"
             android:backgroundTint="@color/black"
