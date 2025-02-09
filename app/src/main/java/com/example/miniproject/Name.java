@@ -1,14 +1,14 @@
 package com.example.miniproject;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,79 +18,55 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Name extends AppCompatActivity {
 
+    private EditText firstNameEditText, lastNameEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_name);
 
-        // Handle first TextView (JoinStartUp)
-        TextView supTextView = findViewById(R.id.sup);
-        stylesupText(supTextView);
+        // Initialize EditText fields for First Name, Last Name
+        firstNameEditText = findViewById(R.id.editText);  // ID for first name EditText
+        lastNameEditText = findViewById(R.id.Last);  // ID for last name EditText
 
-        // Handle second TextView (StartUp with S and u in white)
-        TextView joinTextView = findViewById(R.id.join);
-        stylejoinText(joinTextView);
-
+        // Handle button click to validate and move to next activity
         Button nameb = findViewById(R.id.nameb);
-        nameb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        nameb.setOnClickListener(v -> {
+            if (validateFirstName() && validateLastName()) {
                 Intent intent = new Intent(Name.this, pass.class);
                 startActivity(intent);
+            } else {
+                // Show a message to the user if fields are empty
+                Toast.makeText(Name.this, "Please complete all fields.", Toast.LENGTH_SHORT).show();
             }
         });
 
+        // Edge-to-edge setup for window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
-    private void stylejoinText(TextView textView) {
-        String fullText = "JoinStartUp";
-        SpannableString spannableString = new SpannableString(fullText);
 
-        // Black for "Join"
-        spannableString.setSpan(
-                new ForegroundColorSpan(Color.BLACK),
-                0,
-                4,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-
-        // White for "StartUp"
-        spannableString.setSpan(
-                new ForegroundColorSpan(Color.WHITE),
-                4,
-                fullText.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-
-        textView.setText(spannableString);
+    // Method to validate the first name
+    private boolean validateFirstName() {
+        String firstName = firstNameEditText.getText().toString().trim();
+        if (firstName.isEmpty()) {
+            firstNameEditText.setError("First name is required");
+            return false;
+        }
+        return true;
     }
 
-    private void stylesupText(TextView textView) {
-        String superText = "StartUp";
-        SpannableString spannable = new SpannableString(superText);
-
-        // White for 'S' (first character)
-        spannable.setSpan(
-                new ForegroundColorSpan(Color.WHITE),
-                0,
-                1,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-
-        // White for 'U' (6th character)
-        spannable.setSpan(
-                new ForegroundColorSpan(Color.WHITE),
-                5,
-                6,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-
-        // Rest will use XML's default black color
-        textView.setText(spannable);
+    // Method to validate the last name
+    private boolean validateLastName() {
+        String lastName = lastNameEditText.getText().toString().trim();
+        if (lastName.isEmpty()) {
+            lastNameEditText.setError("Last name is required");
+            return false;
+        }
+        return true;
     }
 }
