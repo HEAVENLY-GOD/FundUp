@@ -3,12 +3,15 @@ package com.example.miniproject;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,12 +21,19 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class pass extends AppCompatActivity {
 
+    private EditText passwordEditText, confirmPasswordEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pass);
 
+        // Initialize the password and confirm password EditTexts
+        passwordEditText = findViewById(R.id.ceditText); // ID for password EditText
+        confirmPasswordEditText = findViewById(R.id.CLast); // ID for confirm password EditText
+
+        // Setup TextViews with styled text
         TextView t1TextView = findViewById(R.id.t1);
         stylet1Text(t1TextView);
 
@@ -31,15 +41,20 @@ public class pass extends AppCompatActivity {
         TextView t2TextView = findViewById(R.id.t2);
         stylet2Text(t2TextView);
 
+        // Handle button click to validate and move to the next activity
         Button scon = findViewById(R.id.scon);
-        scon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        scon.setOnClickListener(v -> {
+            if (validatePassword() && validateConfirmPassword()) {
+                // If validation is successful, proceed to the next screen (slide activity)
                 Intent intent = new Intent(pass.this, slide.class);
                 startActivity(intent);
+            } else {
+                // Show a message to the user if validation fails
+                Toast.makeText(pass.this, "Please make sure both passwords match and are not empty.", Toast.LENGTH_SHORT).show();
             }
         });
 
+        // Edge-to-edge setup for window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -47,29 +62,35 @@ public class pass extends AppCompatActivity {
         });
     }
 
-    private void stylet2Text(TextView textView) {
-        String fullText = "JoinStartUp";
-        SpannableString spannableString = new SpannableString(fullText);
-
-        // Black for "Join"
-        spannableString.setSpan(
-                new ForegroundColorSpan(Color.BLACK),
-                0,
-                4,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-
-        // White for "StartUp"
-        spannableString.setSpan(
-                new ForegroundColorSpan(Color.WHITE),
-                4,
-                fullText.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-
-        textView.setText(spannableString);
+    // Method to validate the password
+    private boolean validatePassword() {
+        String password = passwordEditText.getText().toString().trim();
+        if (TextUtils.isEmpty(password)) {
+            passwordEditText.setError("Password is required");
+            return false;
+        }
+        return true;
     }
 
+    // Method to validate the confirm password
+    private boolean validateConfirmPassword() {
+        String confirmPassword = confirmPasswordEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+
+        if (TextUtils.isEmpty(confirmPassword)) {
+            confirmPasswordEditText.setError("Confirm password is required");
+            return false;
+        }
+
+        if (!confirmPassword.equals(password)) {
+            confirmPasswordEditText.setError("Passwords do not match");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Method to style the "StartUp" text with different colors for S and U
     private void stylet1Text(TextView textView) {
         String superText = "StartUp";
         SpannableString spannable = new SpannableString(superText);
@@ -92,5 +113,29 @@ public class pass extends AppCompatActivity {
 
         // Rest will use XML's default black color
         textView.setText(spannable);
+    }
+
+    // Method to style the "JoinStartUp" text with "Join" in black and "StartUp" in white
+    private void stylet2Text(TextView textView) {
+        String fullText = "JoinStartUp";
+        SpannableString spannableString = new SpannableString(fullText);
+
+        // Black for "Join"
+        spannableString.setSpan(
+                new ForegroundColorSpan(Color.BLACK),
+                0,
+                4,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        // White for "StartUp"
+        spannableString.setSpan(
+                new ForegroundColorSpan(Color.WHITE),
+                4,
+                fullText.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        textView.setText(spannableString);
     }
 }
