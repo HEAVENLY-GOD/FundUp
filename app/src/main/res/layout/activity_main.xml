@@ -21,19 +21,10 @@
         android:layout_above="@id/card_view">
 
         <ImageView
-            android:layout_width="123dp"
-            android:layout_height="94dp"
-            android:src="@drawable/bgl" />
+            android:layout_width="207dp"
+            android:layout_height="192dp"
+            android:src="@drawable/logo" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="StartUp-Fix"
-            android:fontFamily="sans-serif-black"
-            android:textStyle="bold"
-            android:textSize="26sp"
-            android:textColor="@color/black"/>
 
     </LinearLayout>
 
@@ -42,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:cardCornerRadius="28dp"
+        android:backgroundTint="@color/white"
         android:layout_marginBottom="-20dp"
         android:id="@+id/card_view">
 

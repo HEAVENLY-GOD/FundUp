@@ -3,22 +3,29 @@ package com.example.miniproject;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Patterns;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import android.widget.ImageView;
-import android.view.View;
 
 public class Welcome extends AppCompatActivity {
+
+    private EditText emailEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,34 +42,62 @@ public class Welcome extends AppCompatActivity {
         styleSuperText(superTextView);
 
         ImageView exitImage = findViewById(R.id.exit);
-        exitImage.setOnClickListener(new View.OnClickListener() {
+        exitImage.setOnClickListener(v -> finish()); // Close the activity
+
+        // Initialize the EditText for email input
+        emailEditText = findViewById(R.id.editText);
+
+        // Set focus change listener for the EditText (trigger validation when focus is lost)
+        emailEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) validateEmail();  // Trigger email validation when EditText loses focus
+        });
+
+        // Add text change listener to clear the error while typing
+        emailEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                finish(); // Close the activity
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 5) validateEmail(); // Trigger validation if the text length is greater than 5
             }
         });
 
+        // Button click handler
         Button cbutton = findViewById(R.id.cbutton);
-        cbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        cbutton.setOnClickListener(v -> {
+            if (validateEmail()) {
+                // Proceed with valid email
                 Intent intent = new Intent(Welcome.this, Name.class);
                 startActivity(intent);
+            } else {
+                // Show a message to the user that the email is invalid
+                Toast.makeText(Welcome.this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        TextView textView = findViewById(R.id.textView4); // Your TextView ID
-        String text = "or sign in";
-        SpannableString content = new SpannableString(text);
-        content.setSpan(new UnderlineSpan(), 0, text.length(), 9);
-        textView.setText(content);
-
-        // Edge-to-edge setup
+        // Edge-to-edge setup for window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    // Validation function
+    private boolean validateEmail() {
+        String email = emailEditText.getText().toString().trim();
+        if (email.isEmpty()) {
+            emailEditText.setError("Email is required"); // Show error if the email is empty
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.setError("Invalid email format"); // Show error if the email is invalid
+            return false;
+        }
+        return true;
     }
 
     private void styleJoinStartUpText(TextView textView) {

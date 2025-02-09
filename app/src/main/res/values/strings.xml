@@ -2,15 +2,15 @@
     <string name="app_name">Mini project</string>
 
     //Headings
-    <string name="heading_one">Quick &amp; Easy Payments</string>
-    <string name="heading_two">Instant Notifications</string>
-    <string name="heading_three">Cashless Payment</string>
-    <string name="heading_fourth">Pay Anywhere</string>
+    <string name="heading_one">StartUp Fix</string>
+    <string name="heading_two">Fund Up</string>
+    <string name="heading_three">Business Experts</string>
+    <string name="heading_fourth">Product Selling(beta)</string>
 
     //Description
-    <string name="desc_one">Grow your Business By Accepting Card Payments with The New Card Reader</string>
-    <string name="desc_two">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
-    <string name="desc_three">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
-    <string name="desc_fourth">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
+    <string name="desc_one">WE ARE HERE FOR THE STARTUP FIX LIKE FINDING INVESTORS ,RECRUITERS      EMPLOYERS,ETC.</string>
+    <string name="desc_two">Are you seeking investors,passionate about innovative startups to help scale your vision and achieve transformative growth in the industry..</string>
+    <string name="desc_three">you can seek guidance from business experts to refine your strategy, optimize operations, and accelerate growth for your startup...</string>
+    <string name="desc_fourth">Your product,offers innovative solutions, delivering exceptional value to customers and driving growth for your startup....</string>
 
 </resources>
