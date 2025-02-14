@@ -67,7 +67,7 @@ public class slide extends AppCompatActivity {
 
         // Skip button to directly go to the main screen
         findViewById(R.id.skipButton).setOnClickListener(v -> {
-            Intent i = new Intent(slide.this, MainActivity.class);
+            Intent i = new Intent(slide.this, dashboard.class);
             startActivity(i);
             finish();
         });

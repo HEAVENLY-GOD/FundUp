@@ -15,7 +15,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
-            android:id="@+id/sup"
+            android:id="@+id/siva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
@@ -60,7 +60,7 @@
             app:layout_constraintVertical_bias="0.435" />
 
         <TextView
-            android:id="@+id/join"
+            android:id="@+id/kumar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
