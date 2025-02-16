@@ -19,15 +19,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class pass extends AppCompatActivity {
 
     private EditText passwordEditText, confirmPasswordEditText;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pass);
+
+        mAuth = FirebaseAuth.getInstance(); // Initialize FirebaseAuth
 
         // Initialize the password and confirm password EditTexts
         passwordEditText = findViewById(R.id.ceditText); // ID for password EditText
@@ -45,9 +50,17 @@ public class pass extends AppCompatActivity {
         Button scon = findViewById(R.id.scon);
         scon.setOnClickListener(v -> {
             if (validatePassword() && validateConfirmPassword()) {
-                // If validation is successful, proceed to the next screen (slide activity)
-                Intent intent = new Intent(pass.this, slide.class);
-                startActivity(intent);
+                String password = passwordEditText.getText().toString().trim();
+                mAuth.getCurrentUser().updatePassword(password) // Update password in Firebase
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                // Password updated successfully
+                                Intent intent = new Intent(pass.this, slide.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(pass.this, "Password update failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
             } else {
                 // Show a message to the user if validation fails
                 Toast.makeText(pass.this, "Please make sure both passwords match and are not empty.", Toast.LENGTH_SHORT).show();
@@ -111,7 +124,6 @@ public class pass extends AppCompatActivity {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         );
 
-        // Rest will use XML's default black color
         textView.setText(spannable);
     }
 

@@ -3,8 +3,6 @@ package com.example.miniproject;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -20,9 +18,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.example.miniproject.model.User; // Import the custom User class
+
 public class Name extends AppCompatActivity {
 
     private EditText firstNameEditText, lastNameEditText;
+    private FirebaseAuth mAuth;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,30 +34,29 @@ public class Name extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_name);
 
-        // Initialize EditText fields for First Name, Last Name
-        firstNameEditText = findViewById(R.id.editText);  // ID for first name EditText
-        lastNameEditText = findViewById(R.id.Last);  // ID for last name EditText
+        mAuth = FirebaseAuth.getInstance();
+        email = getIntent().getStringExtra("email");  // Get email passed from Welcome activity
 
-        // Setup TextViews with styled text
+        firstNameEditText = findViewById(R.id.editText);
+        lastNameEditText = findViewById(R.id.Last);
+
         TextView sivaTextView = findViewById(R.id.siva);
         stylet1Text(sivaTextView);
 
-        // Handle second TextView (StartUp with S and u in white)
         TextView kumarTextView = findViewById(R.id.kumar);
         stylet2Text(kumarTextView);
-        // Handle button click to validate and move to next activity
+
         Button nameb = findViewById(R.id.nameb);
         nameb.setOnClickListener(v -> {
             if (validateFirstName() && validateLastName()) {
-                Intent intent = new Intent(Name.this, pass.class);
-                startActivity(intent);
+                String firstName = firstNameEditText.getText().toString().trim();
+                String lastName = lastNameEditText.getText().toString().trim();
+                saveUserNameToFirebase(firstName, lastName);
             } else {
-                // Show a message to the user if fields are empty
                 Toast.makeText(Name.this, "Please complete all fields.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Edge-to-edge setup for window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -61,7 +64,6 @@ public class Name extends AppCompatActivity {
         });
     }
 
-    // Method to validate the first name
     private boolean validateFirstName() {
         String firstName = firstNameEditText.getText().toString().trim();
         if (firstName.isEmpty()) {
@@ -71,7 +73,6 @@ public class Name extends AppCompatActivity {
         return true;
     }
 
-    // Method to validate the last name
     private boolean validateLastName() {
         String lastName = lastNameEditText.getText().toString().trim();
         if (lastName.isEmpty()) {
@@ -81,50 +82,41 @@ public class Name extends AppCompatActivity {
         return true;
     }
 
+    private void saveUserNameToFirebase(String firstName, String lastName) {
+        String userId = mAuth.getCurrentUser().getUid();
+
+        // Create a User object using the values
+        User user = new User(firstName, lastName, email);  // Use the custom User class
+
+        FirebaseDatabase.getInstance().getReference("Users")
+                .child(userId)  // Use the current user's ID as the key
+                .setValue(user)  // Store the user data
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(Name.this, "Name saved successfully!", Toast.LENGTH_SHORT).show();
+                        // Proceed to the next activity (if needed)
+                        Intent intent = new Intent(Name.this, pass.class); // Replace with your target activity
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(Name.this, "Failed to save name: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void stylet1Text(TextView textView) {
         String superText = "StartUp";
         SpannableString spannable = new SpannableString(superText);
-
-        // White for 'S' (first character)
-        spannable.setSpan(
-                new ForegroundColorSpan(Color.WHITE),
-                0,
-                1,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-
-        // White for 'U' (6th character)
-        spannable.setSpan(
-                new ForegroundColorSpan(Color.WHITE),
-                5,
-                6,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-
-        // Rest will use XML's default black color
+        spannable.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.WHITE), 5, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(spannable);
     }
 
-    // Method to style the "JoinStartUp" text with "Join" in black and "StartUp" in white
     private void stylet2Text(TextView textView) {
         String fullText = "JoinStartUp";
         SpannableString spannableString = new SpannableString(fullText);
 
-        // Black for "Join"
-        spannableString.setSpan(
-                new ForegroundColorSpan(Color.BLACK),
-                0,
-                4,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-
-        // White for "StartUp"
-        spannableString.setSpan(
-                new ForegroundColorSpan(Color.WHITE),
-                4,
-                fullText.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
+        spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(Color.WHITE), 4, fullText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         textView.setText(spannableString);
     }

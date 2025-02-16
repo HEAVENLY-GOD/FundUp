@@ -94,6 +94,7 @@
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/logem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -111,10 +112,12 @@
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/logpa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:drawableEnd="@drawable/ac"/>
+                android:drawableEnd="@drawable/ac"
+                tools:ignore="InvalidId" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

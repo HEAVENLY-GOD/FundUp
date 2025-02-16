@@ -8,7 +8,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.UnderlineSpan;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -23,15 +22,21 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class Welcome extends AppCompatActivity {
 
     private EditText emailEditText;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_welcome);
+
+        mAuth = FirebaseAuth.getInstance();  // Initialize FirebaseAuth
 
         // Handle first TextView (JoinStartUp)
         TextView startupTextView = findViewById(R.id.startup);
@@ -70,9 +75,18 @@ public class Welcome extends AppCompatActivity {
         Button cbutton = findViewById(R.id.cbutton);
         cbutton.setOnClickListener(v -> {
             if (validateEmail()) {
-                // Proceed with valid email
-                Intent intent = new Intent(Welcome.this, Name.class);
-                startActivity(intent);
+                // Proceed with valid email authentication
+                String email = emailEditText.getText().toString().trim();
+                mAuth.createUserWithEmailAndPassword(email, "defaultPassword") // Temporarily using a default password
+                        .addOnCompleteListener(this, task -> {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Intent intent = new Intent(Welcome.this, Name.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(Welcome.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
             } else {
                 // Show a message to the user that the email is invalid
                 Toast.makeText(Welcome.this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
@@ -91,10 +105,10 @@ public class Welcome extends AppCompatActivity {
     private boolean validateEmail() {
         String email = emailEditText.getText().toString().trim();
         if (email.isEmpty()) {
-            emailEditText.setError("Email is required"); // Show error if the email is empty
+            emailEditText.setError("Email is required");
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEditText.setError("Invalid email format"); // Show error if the email is invalid
+            emailEditText.setError("Invalid email format");
             return false;
         }
         return true;
@@ -143,7 +157,6 @@ public class Welcome extends AppCompatActivity {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         );
 
-        // Rest will use XML's default black color
         textView.setText(spannable);
     }
 }

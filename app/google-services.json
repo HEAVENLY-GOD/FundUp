@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "98026762162",
+    "project_id": "heavenly-god",
+    "storage_bucket": "heavenly-god.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98026762162:android:f8865fe7aa05ca21adfeab",
+        "android_client_info": {
+          "package_name": "com.example.miniproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClv1k1SfRhg2FtJrdtOCdxJHHSXWh-H3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

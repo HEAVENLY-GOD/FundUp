@@ -1,5 +1,6 @@
 package com.example.miniproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,6 +38,9 @@ public class dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(dashboard.this, "You clicked Technical!", Toast.LENGTH_SHORT).show();
+                // Start WelcomeActivity
+                Intent intent = new Intent(dashboard.this, Tecnical.class);
+                startActivity(intent);
             }
         });
 
@@ -44,6 +48,9 @@ public class dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(dashboard.this, "You clicked Social!", Toast.LENGTH_SHORT).show();
+                // Start WelcomeActivity
+                Intent intent = new Intent(dashboard.this, Tecnical.class);
+                startActivity(intent);
             }
         });
 
@@ -51,34 +58,49 @@ public class dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(dashboard.this, "You clicked Ecommerce!", Toast.LENGTH_SHORT).show();
+                // Start WelcomeActivity
+                Intent intent = new Intent(dashboard.this, Tecnical.class);
+                startActivity(intent);
             }
         });
 
         a4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(dashboard.this, "You clicked Healthtech!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(dashboard.this, "You clicked fintech!", Toast.LENGTH_SHORT).show();
+                // Start WelcomeActivity
+                Intent intent = new Intent(dashboard.this, Tecnical.class);
+                startActivity(intent);
             }
         });
 
         a5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(dashboard.this, "You clicked Biotech!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(dashboard.this, "You clicked Healthtech!", Toast.LENGTH_SHORT).show();
+                // Start WelcomeActivity
+                Intent intent = new Intent(dashboard.this, Tecnical.class);
+                startActivity(intent);
             }
         });
 
         a6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(dashboard.this, "You clicked Fintech!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(dashboard.this, "You clicked Saas!", Toast.LENGTH_SHORT).show();
+                // Start WelcomeActivity
+                Intent intent = new Intent(dashboard.this, Tecnical.class);
+                startActivity(intent);
             }
         });
 
         a7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(dashboard.this, "You clicked Saas!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(dashboard.this, "You clicked Biotech!", Toast.LENGTH_SHORT).show();
+                // Start WelcomeActivity
+                Intent intent = new Intent(dashboard.this, Tecnical.class);
+                startActivity(intent);
             }
         });
 
@@ -86,6 +108,9 @@ public class dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(dashboard.this, "You clicked Education!", Toast.LENGTH_SHORT).show();
+                // Start WelcomeActivity
+                Intent intent = new Intent(dashboard.this, Tecnical.class);
+                startActivity(intent);
             }
         });
 
