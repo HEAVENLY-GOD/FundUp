@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MiniProject"
         tools:targetApi="31">
         <activity
+            android:name=".Console"
+            android:exported="false" />
+        <activity
             android:name=".Tecnical"
             android:exported="false" />
         <activity

@@ -1,11 +1,13 @@
 package com.example.miniproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
+    private CheckBox rememberMeCheckBox;
     private FirebaseAuth mAuth; // FirebaseAuth instance
+    private SharedPreferences sharedPreferences; // SharedPreferences to store the login state
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +32,22 @@ public class MainActivity extends AppCompatActivity {
         // Initialize FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
 
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+
         // Set up email and password EditText
         emailEditText = findViewById(R.id.logem);  // ID for the email EditText
         passwordEditText = findViewById(R.id.logpa);  // ID for the password EditText
+        rememberMeCheckBox = findViewById(R.id.check);  // ID for the Remember Me checkbox
 
-        // Check if there's an Intent coming from pass.java (with email and password)
-        Intent intent = getIntent();
-        String email = intent.getStringExtra("email");
-        String password = intent.getStringExtra("password");
-
-        // If we received the email and password from pass.java, set them in the EditText fields
-        if (email != null && password != null) {
-            emailEditText.setText(email);
-            passwordEditText.setText(password);
+        // Check if the user is already logged in and rememberMe is true
+        if (sharedPreferences.getBoolean("rememberMe", false)) {
+            // User is remembered and logged in, navigate directly to Technical activity
+            navigateToTechnical();
         }
+
+        // Make sure the "Remember Me" checkbox is unchecked when the user is not logged in
+        rememberMeCheckBox.setChecked(false);
 
         // Set up login button
         MaterialButton logButton = findViewById(R.id.log);
@@ -80,13 +86,30 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Login successful
                         Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                        // Navigate to dashboard activity
-                        Intent intent = new Intent(MainActivity.this, dashboard.class);
-                        startActivity(intent);
+
+                        // Check if Remember me is checked
+                        if (rememberMeCheckBox.isChecked()) {
+                            // Save the "Remember me" state in SharedPreferences
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("rememberMe", true);
+                            editor.putString("userEmail", email); // Optionally save the user's email
+                            editor.apply();
+                        }
+
+                        // Navigate to Technical activity and clear the back stack
+                        navigateToTechnical();
                     } else {
                         // If the login fails
                         Toast.makeText(MainActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    // Method to navigate to Technical activity
+    private void navigateToTechnical() {
+        Intent intent = new Intent(MainActivity.this, Tecnical.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK); // Clear back stack
+        startActivity(intent);
+        finish(); // Finish the current activity (MainActivity)
     }
 }
