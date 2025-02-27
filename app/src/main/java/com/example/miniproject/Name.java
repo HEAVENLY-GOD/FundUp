@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,8 +18,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Transaction;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.DataSnapshot;
 import com.example.miniproject.model.User; // Import the custom User class
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Name extends AppCompatActivity {
 
@@ -82,25 +90,67 @@ public class Name extends AppCompatActivity {
         return true;
     }
 
+    // Merged saveUserNameToFirebase method with counter increment
     private void saveUserNameToFirebase(String firstName, String lastName) {
-        String userId = mAuth.getCurrentUser().getUid();
+        String userId = mAuth.getCurrentUser().getUid();  // Get the user ID
 
-        // Create a User object using the values
-        User user = new User(firstName, lastName, email);  // Use the custom User class
+        // Get the current date (join date)
+        String joinDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
-        FirebaseDatabase.getInstance().getReference("Users")
-                .child(userId)  // Use the current user's ID as the key
-                .setValue(user)  // Store the user data
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(Name.this, "Name saved successfully!", Toast.LENGTH_SHORT).show();
-                        // Proceed to the next activity (if needed)
-                        Intent intent = new Intent(Name.this, pass.class); // Replace with your target activity
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(Name.this, "Failed to save name: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        // Create a User object using the firstName, lastName, email, and joinDate
+        User user = new User(firstName, lastName, email, joinDate);  // Now this works with the new constructor
+
+        // Set the userId here after creating the User object
+        user.setUserId(userId);
+
+        // Get reference to the 'students' node and the 'counter' node
+        DatabaseReference studentsRef = FirebaseDatabase.getInstance().getReference("students");
+        DatabaseReference counterRef = FirebaseDatabase.getInstance().getReference("counter");
+
+        // Use a transaction to safely increment the counter
+        counterRef.child("studentCount").runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData currentData) {
+                Integer currentCount = currentData.getValue(Integer.class);
+                if (currentCount == null) {
+                    currentData.setValue(1);  // Initialize counter if it doesn't exist (first student)
+                } else {
+                    currentData.setValue(currentCount + 1);  // Increment counter
+                }
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot currentData) {
+                if (databaseError != null) {
+                    Toast.makeText(Name.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (committed) {
+                    // Get the updated counter value
+                    int newStudentCount = currentData.getValue(Integer.class);
+
+                    // Generate the student ID using the new counter value
+                    String newStudentId = "student" + newStudentCount;  // student1, student2, ...
+
+                    // Save the user data under the new student ID in the 'students' node
+                    studentsRef.child(newStudentId).setValue(user)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(Name.this, "Name saved successfully!", Toast.LENGTH_SHORT).show();
+                                    // Proceed to the next activity (if needed)
+                                    Intent intent = new Intent(Name.this, pass.class); // Replace with your target activity
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(Name.this, "Failed to save name: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(Name.this, "Failed to increment student count.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void stylet1Text(TextView textView) {
