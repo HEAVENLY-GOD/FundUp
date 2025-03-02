@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.miniproject.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class settings extends Fragment {
 
     private Button buttongoku;
+    private Button profButton;  // New Button for navigating to 'personal' Fragment
     private SharedPreferences sharedPreferences;
     private EditText usname;  // EditText to display first and last name
     private EditText joined;  // EditText to display the join date
@@ -47,6 +49,8 @@ public class settings extends Fragment {
 
         // Get reference to the Goku button (Logout button)
         buttongoku = rootView.findViewById(R.id.goku);
+        // Get reference to the "Profile" button
+        profButton = rootView.findViewById(R.id.prof);  // Assuming ID for the button is 'prof'
 
         // Get references to the EditTexts for username and joined date
         usname = rootView.findViewById(R.id.usname);
@@ -55,7 +59,7 @@ public class settings extends Fragment {
         // Fetch and display the student's first name, last name, and join date
         fetchUserDetails();
 
-        // Set the click listener for the Goku button
+        // Set the click listener for the Goku button (Logout button)
         buttongoku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,11 +95,31 @@ public class settings extends Fragment {
             }
         });
 
+        // Set the click listener for the "Profile" button (to go to personal fragment)
+        profButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Profile button clicked");
+
+                // Check if the fragment is attached to an Activity
+                if (getActivity() != null) {
+                    // Create a new instance of the personal fragment
+                    personal personalFragment = new personal();
+
+                    // Start a FragmentTransaction to navigate to the personal fragment
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, personalFragment);  // Replace with the container where the fragment is to be displayed
+                    transaction.addToBackStack(null);  // Optionally add to back stack to allow navigation back
+                    transaction.commit();
+                }
+            }
+        });
+
         return rootView;
     }
 
     private void fetchUserDetails() {
-        // Ensure that the user is authenticated
+        // Ensure the user is authenticated
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Log.e(TAG, "User is not authenticated.");
@@ -103,42 +127,26 @@ public class settings extends Fragment {
         }
 
         String userId = user.getUid();  // Get current user's UID
-        Log.d(TAG, "Current User ID: " + userId);  // Log user ID for debugging
+        Log.d(TAG, "Current User ID: " + userId);
 
-        // Get reference to the 'students' node
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("students");
-
-        // Search for the current user using their userId in the students node
-        usersRef.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        // Reference to 'Users' node for displayName
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Log the entire data snapshot for debugging
-                    Log.d(TAG, "DataSnapshot exists: " + dataSnapshot.getValue());
-
-                    // Assuming the data is a single user record, get the first child
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        User user = snapshot.getValue(User.class);
-                        if (user != null) {
-                            // Combine first name and last name to display
-                            String fullName = user.getFirstName() + " " + user.getLastName();
-                            usname.setText(fullName);  // Display full name in the EditText
-                            Log.d(TAG, "User found: " + fullName);  // Log the fetched name
-
-                            // Set the joined date in the 'Joined' EditText
-                            String joinDate = user.getJoinDate();  // Assuming joinDate is a string
-                            joined.setText(joinDate);  // Display join date in the EditText
-                            Log.d(TAG, "Join date: " + joinDate);  // Log the fetched join date
-                        } else {
-                            usname.setText("User data is null");
-                            joined.setText("Join date not available");
-                            Log.e(TAG, "User data is null for the UID: " + userId);
-                        }
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Fetch displayName
+                    String displayName = snapshot.child("displayName").getValue(String.class);
+                    if (displayName != null) {
+                        usname.setText(displayName);  // Set displayName in EditText
+                        Log.d(TAG, "Display Name: " + displayName);
+                    } else {
+                        usname.setText("No display name set");
+                        Log.e(TAG, "Display Name not found.");
                     }
                 } else {
-                    Log.e(TAG, "User data does not exist in Firebase for UID: " + userId);
                     usname.setText("User data not available");
-                    joined.setText("Join date not available");
+                    Log.e(TAG, "User data does not exist in Users for UID: " + userId);
                 }
             }
 
@@ -146,6 +154,35 @@ public class settings extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, "Failed to read user data: " + databaseError.getMessage());
                 usname.setText("Error loading user data");
+            }
+        });
+
+        // Reference to 'students' node for joinDate
+        DatabaseReference studentsRef = FirebaseDatabase.getInstance().getReference("students");
+        studentsRef.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String joinDate = snapshot.child("joinDate").getValue(String.class);
+                        if (joinDate != null) {
+                            joined.setText(joinDate);
+                            Log.d(TAG, "Join Date: " + joinDate);
+                        } else {
+                            joined.setText("Join date not available");
+                            Log.e(TAG, "Join Date not found.");
+                        }
+                        break;  // Since we're only expecting one match, exit loop after first result
+                    }
+                } else {
+                    joined.setText("Join date not available");
+                    Log.e(TAG, "User data does not exist in students for UID: " + userId);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "Failed to read join date: " + databaseError.getMessage());
                 joined.setText("Error loading join date");
             }
         });

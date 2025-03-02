@@ -42,5 +42,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.dotlottie.android.v062)
+    implementation (libs.dotlottie.android)
+
 
 }

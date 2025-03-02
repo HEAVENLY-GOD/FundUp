@@ -16,9 +16,10 @@ firebaseDatabase = "21.0.0"
 firebaseFirestore = "25.1.2"
 
 [libraries]
-dotlottie-android = { module = "com.github.LottieFiles:dotlottie-android", version.ref = "dotlottieAndroid" }
+
 dotlottie-android-v062 = { module = "com.github.LottieFiles:dotlottie-android", version.ref = "dotlottieAndroidVersion" }
 dotlottie-android-v063 = { module = "com.github.LottieFiles:dotlottie-android", version.ref = "githubDotlottieAndroid" }
+dotlottie-android = { module = "com.airbnb.android:lottie", version = "6.2.0" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

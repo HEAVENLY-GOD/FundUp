@@ -1,0 +1,7 @@
+<resources>
+    <style name="CustomMaterialButtonStyle">
+        <item name="backgroundTint">@null</item> <!-- Prevent tinting -->
+        <item name="android:background">@drawable/col</item> <!-- Set the custom drawable -->
+        <item name="android:textColor">@color/black</item> <!-- Set text color -->
+    </style>
+</resources>

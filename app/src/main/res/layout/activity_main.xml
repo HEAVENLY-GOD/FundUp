@@ -147,11 +147,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/log"
-                android:layout_width="match_parent"
+                android:layout_width="229dp"
                 android:layout_height="60dp"
-                android:text="Login"
                 android:backgroundTint="@color/black"
-                app:cornerRadius="32dp"/>
+                android:text="Login"
+                android:layout_gravity="center_horizontal"
+                app:cornerRadius="32dp" />
 
             <ViewStub
                 android:layout_width="wrap_content"
@@ -164,16 +165,16 @@
                 android:layout_gravity="center" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="14dp"
-                    android:background="@drawable/facebook"/>
+                    android:background="@drawable/facebook" />
 
                 <ImageView
                     android:layout_width="80dp"
@@ -185,7 +186,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="14dp"
-                    android:background="@drawable/github"/>
+                    android:background="@drawable/github" />
 
             </LinearLayout>
 

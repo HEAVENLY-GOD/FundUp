@@ -3,93 +3,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".settings"
     android:background="#CFCFCF">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/goku"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="85dp"
-        android:backgroundTint="@color/white"
         android:text="Logout"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/about"
-        android:layout_width="331dp"
-        android:layout_height="94dp"
-        android:layout_above="@id/goku"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/custom_input"
-        android:text="  About Us"
-        android:textStyle="bold"/>
-
-    <!-- Additional TextView for the description under "About Us" -->
-
-    <TextView
-        android:id="@+id/about_description"
-        android:layout_width="278dp"
-        android:layout_height="66dp"
-        android:layout_below="@id/about"
-        android:layout_marginTop="-97dp"
-        android:layout_centerHorizontal="true"
-        android:padding="8dp"
-        android:text="Startup-fix, and always will be, free, and open source. You can however show us that you care by making a donation"
-        android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="13sp" />
+        style="@style/CustomMaterialButtonStyle"/>
 
-    <TextView
-        android:id="@+id/support"
-        android:layout_width="331dp"
-        android:layout_height="94dp"
-        android:layout_above="@id/about"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/custom_input"
-        android:text="  Support Us"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/support_description"
-        android:layout_width="278dp"
-        android:layout_height="66dp"
-        android:layout_below="@id/support"
-        android:layout_marginTop="-97dp"
-        android:layout_centerHorizontal="true"
-        android:padding="8dp"
-        android:text="Startup-fix, and always will be, free, and open source. You can however show us that you care by making a donation"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
-
-    <TextView
+    <Button
         android:id="@+id/prof"
+        style="@style/CustomMaterialButtonStyle"
+        android:text="Personal details, security, password"
         android:layout_width="331dp"
         android:layout_height="94dp"
-        android:layout_above="@id/support"
+        android:layout_above="@+id/support"
+        android:layout_marginBottom="22dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/custom_input"
-        android:text="  Personal Information"
-        android:textStyle="bold"/>
+        android:textSize="12sp"/>
 
     <TextView
-        android:id="@+id/prof_description"
-        android:layout_width="278dp"
-        android:layout_height="66dp"
-        android:layout_below="@id/prof"
-        android:layout_marginTop="-97dp"
-        android:layout_centerHorizontal="true"
-        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/about"
+        android:layout_alignBottom="@+id/prof"
+        android:layout_marginEnd="218dp"
+        android:layout_marginBottom="70dp"
+        android:text="Account details"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <Button
+    android:id="@+id/support"
+    style="@style/CustomMaterialButtonStyle"
+    android:text="Support Us on patreon"
+    android:layout_width="331dp"
+    android:layout_height="94dp"
+    android:layout_above="@+id/about"
+    android:layout_marginBottom="22dp"
+    android:layout_centerHorizontal="true"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/about"
+        android:layout_alignBottom="@+id/support"
+        android:layout_marginEnd="248dp"
+        android:layout_marginBottom="72dp"
+        android:text="Support us"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/about"
+        style="@style/CustomMaterialButtonStyle"
         android:text="Startup-fix, and always will be, free, and open source. You can however show us that you care by making a donation"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:layout_width="331dp"
+        android:layout_height="94dp"
+        android:layout_above="@+id/goku"
+        android:layout_marginBottom="22dp"
+        android:textStyle="normal"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/about"
+        android:layout_alignBottom="@+id/about"
+        android:layout_marginEnd="262dp"
+        android:layout_marginBottom="72dp"
+        android:text="About us"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/img"
@@ -119,7 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/prof"
         android:layout_marginStart="64dp"
-        android:layout_marginBottom="131dp"
+        android:layout_marginBottom="129dp"
         android:layout_toEndOf="@id/img"
         android:background="@drawable/transparent"
         android:enabled="false"
