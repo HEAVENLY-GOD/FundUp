@@ -149,9 +149,9 @@
                 android:id="@+id/log"
                 android:layout_width="229dp"
                 android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
                 android:backgroundTint="@color/black"
                 android:text="Login"
-                android:layout_gravity="center_horizontal"
                 app:cornerRadius="32dp" />
 
             <ViewStub

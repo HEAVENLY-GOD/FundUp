@@ -1,0 +1,7 @@
+<resources>
+    <style name="prithika">
+        <item name="backgroundTint">@null</item> <!-- Prevent tinting -->
+        <item name="android:background">@drawable/hui</item> <!-- Set the custom drawable -->
+        <item name="android:textColor">@color/white</item> <!-- Set text color -->
+    </style>
+</resources>

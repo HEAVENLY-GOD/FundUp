@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Home"
+    android:background="#42A5F5"
+    android:padding="16dp">
+
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+
+ <!-- Full-Screen Lottie Animation -->
+
+
+ <androidx.cardview.widget.CardView
+     android:layout_width="334dp"
+     android:layout_height="632dp"
+     app:cardCornerRadius="38dp"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.488"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.208">
+
+  <androidx.core.widget.NestedScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="28dp">
+
+   <!-- New horizontal container for Welcome and Signup -->
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:gravity="center_vertical"
+       android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/pitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Startup-pitch"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="post"
+        android:textColor="@color/black"
+        android:backgroundTint="#4864FFDA"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+   </LinearLayout>
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Startup Name :"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:textStyle="bold" />
+
+
+   <EditText
+       android:id="@+id/startupName"
+       android:layout_width="269dp"
+       android:layout_height="wrap_content"
+       android:background="@drawable/roundedittext"
+       android:inputType="text" />
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Founders :"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:textStyle="bold" />
+
+
+   <EditText
+       android:id="@+id/founder1"
+       android:layout_width="185dp"
+       android:layout_height="wrap_content"
+       android:inputType="text"
+       />
+
+   <EditText
+       android:id="@+id/founder2"
+       android:layout_width="185dp"
+       android:layout_height="wrap_content"
+       android:inputType="text"
+       />
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Category :"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:textStyle="bold" />
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <Spinner
+       android:id="@+id/cat"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:padding="10dp"
+       style="@style/SpinnerStyle"/>
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Problem statement :"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:textStyle="bold" />
+
+
+   <EditText
+       android:id="@+id/problemStatement"
+       android:layout_width="273dp"
+       android:layout_height="147dp"
+       android:background="@drawable/roundedittext"
+       android:gravity="top|start"
+       android:inputType="textMultiLine" />
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Solution&amp;value :"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:textStyle="bold" />
+
+
+   <EditText
+       android:id="@+id/solution"
+       android:layout_width="273dp"
+       android:layout_height="147dp"
+       android:background="@drawable/roundedittext"
+       android:inputType="textMultiLine"
+       android:gravity="top|start" />
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Target Market :"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:textStyle="bold" />
+
+
+   <EditText
+       android:id="@+id/targetMarket"
+       android:layout_width="185dp"
+       android:layout_height="wrap_content"
+       android:inputType="text" />
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Business Model :"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:textStyle="bold" />
+
+
+   <Spinner
+       android:id="@+id/business"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:padding="10dp"/>
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Investment Ask :"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:textStyle="bold" />
+
+
+   <EditText
+       android:id="@+id/investmentAsk"
+       android:layout_width="185dp"
+       android:layout_height="wrap_content"
+       android:inputType="text" />
+
+
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="21dp"
+       android:layout_weight="1" />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Contact info :"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:textStyle="bold" />
+
+   <EditText
+       android:id="@+id/contactEmail"
+       android:layout_width="185dp"
+       android:layout_height="wrap_content"
+       android:inputType="textEmailAddress" />
+
+   <EditText
+       android:id="@+id/contactPhone"
+       android:layout_width="185dp"
+       android:layout_height="wrap_content"
+       android:inputType="phone" />
+
+
+
+  </LinearLayout>
+
+  </androidx.core.widget.NestedScrollView>
+
+ </androidx.cardview.widget.CardView>
+
+ </androidx.constraintlayout.widget.ConstraintLayout>
+
+ <com.airbnb.lottie.LottieAnimationView
+     android:id="@+id/lottieAnimationView"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:layout_gravity="center"
+     app:lottie_autoPlay="false"
+     app:lottie_loop="true"
+     app:lottie_rawRes="@raw/success_animation"
+     android:visibility="gone"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+</FrameLayout>

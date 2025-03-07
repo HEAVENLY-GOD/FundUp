@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SpinnerStyle">
+        <item name="android:dropDownHeight">200dp</item> <!-- Adjust to show 4 items -->
+    </style>
+</resources>

@@ -1,18 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Home"
-    android:background="@color/black">
+    android:background="@drawable/blue"
+    android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Home"
-        android:textColor="@color/white"
-        android:textSize="32sp"
-        android:textStyle="bold" />
+    <Button
+        android:id="@+id/myproject"
+        style="@style/prithika"
+        android:layout_width="154dp"
+        android:layout_height="172dp"
+        android:text="My projects"
+        app:circularflow_radiusInDP="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.902"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.18" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/post"
+        style="@style/prithika"
+        android:layout_width="128dp"
+        android:layout_height="72dp"
+        android:backgroundTint="#FFFFFF"
+        android:text="Pitch"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/myproject"
+        app:layout_constraintHorizontal_bias="0.32"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.17" />
+
+    <Button
+        style="@style/prithika"
+        android:layout_width="129dp"
+        android:layout_height="55dp"
+        android:backgroundTint="#FBC02D"
+        android:text="Notifier"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/myproject"
+        app:layout_constraintHorizontal_bias="0.324"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.31"
+/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="323dp"
+        android:layout_height="314dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="38dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myproject"
+        app:layout_constraintVertical_bias="0.362">
+
+        <com.lottiefiles.dotlottie.core.widget.DotLottieAnimation
+            android:id="@+id/h2o"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0dp"
+            app:dotLottie_autoplay="true"
+            app:dotLottie_loop="false"
+            app:dotLottie_src="water.json"
+            android:layout_marginTop="34dp"
+            android:layout_marginBottom="-99dp">
+
+        </com.lottiefiles.dotlottie.core.widget.DotLottieAnimation>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
