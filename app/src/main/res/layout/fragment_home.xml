@@ -56,7 +56,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="323dp"
         android:layout_height="314dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/black"
         app:cardCornerRadius="38dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,6 +64,82 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myproject"
         app:layout_constraintVertical_bias="0.362">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title :"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="22sp"/>
+
+        <EditText
+            android:id="@+id/card"
+            android:layout_width="170dp"
+            android:layout_height="46dp"
+            android:layout_marginLeft="78dp"
+            android:textColor="#27FFE7"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/transparent"
+            android:inputType="text"
+            android:textStyle="bold"
+            android:enabled="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Founders :"
+            android:textStyle="bold"
+            android:layout_marginTop="55dp"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/white"/>
+
+
+        <EditText
+            android:id="@+id/found1"
+            android:layout_width="186dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="65dp"
+            android:layout_marginLeft="78dp"
+            android:textColor="#27FFE7"
+            android:background="@drawable/transparent"
+            android:enabled="false"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/found2"
+            android:layout_width="186dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="95dp"
+            android:layout_marginLeft="78dp"
+            android:textColor="#27FFE7"
+            android:background="@drawable/transparent"
+            android:enabled="false"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="86dp"
+            android:layout_height="92dp"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="145dp"
+            android:src="@drawable/analytics" />
+
+        <EditText
+            android:layout_width="67dp"
+            android:layout_height="59dp"
+            android:layout_marginLeft="235dp"
+            android:layout_marginTop="165dp"
+            android:text="0"
+            android:textSize="22sp"
+            android:textColor="#27FFE7"
+            android:background="@drawable/transparent"
+            android:enabled="false"
+            android:gravity="center"/>
 
         <com.lottiefiles.dotlottie.core.widget.DotLottieAnimation
             android:id="@+id/h2o"

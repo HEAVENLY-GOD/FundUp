@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +29,7 @@ public class Projdetails extends Fragment {
     private Spinner categorySpinner, businessSpinner;
     private Button postButton;
     private DatabaseReference databaseReference;
-    private String projectId = "unique_project";
+    private String userId;
     private boolean fetchData = false;
     private LottieAnimationView lottieAnimationView;
 
@@ -44,7 +46,15 @@ public class Projdetails extends Fragment {
             fetchData = getArguments().getBoolean("fetchData", false);
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Projects").child(projectId);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            userId = user.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference("Projects").child(userId);
+        } else {
+            Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
+            return view;
+        }
 
         startupName = view.findViewById(R.id.startupName);
         founders1 = view.findViewById(R.id.founder1);
@@ -82,6 +92,8 @@ public class Projdetails extends Fragment {
     }
 
     private void fetchProjectDetails() {
+        if (userId == null) return;
+
         lottieAnimationView.setVisibility(View.VISIBLE);
         lottieAnimationView.playAnimation();
 
@@ -118,6 +130,8 @@ public class Projdetails extends Fragment {
     }
 
     private void saveOrUpdateData() {
+        if (userId == null) return;
+
         lottieAnimationView.setVisibility(View.VISIBLE);
         lottieAnimationView.playAnimation();
 

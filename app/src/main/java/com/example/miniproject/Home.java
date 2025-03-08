@@ -1,56 +1,80 @@
+// Home.java
 package com.example.miniproject;
 
 import android.os.Bundle;
 import android.util.Log;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Home extends Fragment {
+    private EditText card, found1, found2;
+    private DatabaseReference databaseReference;
+    private String userId;
 
-    public Home() {
-        // Required empty public constructor
-    }
+    public Home() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Find buttons
+        card = view.findViewById(R.id.card);
+        found1 = view.findViewById(R.id.found1);
+        found2 = view.findViewById(R.id.found2);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            userId = user.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference("Projects").child(userId);
+            fetchProjectDetails();
+        }
+
         Button postButton = view.findViewById(R.id.post);
         Button myProjectButton = view.findViewById(R.id.myproject);
 
-        // Post button opens Projdetails fragment (for creating/updating)
-        postButton.setOnClickListener(v -> {
-            Log.d("HomeFragment", "Post button clicked!");
-            openProjDetails(false);  // false -> Means user is posting a new project
-        });
-
-        // MyProject button opens Projdetails fragment (to fetch existing data)
-        myProjectButton.setOnClickListener(v -> {
-            Log.d("HomeFragment", "My Projects button clicked!");
-            openProjDetails(true);  // true -> Means fetch data from Firebase
-        });
+        postButton.setOnClickListener(v -> openProjDetails(false));
+        myProjectButton.setOnClickListener(v -> openProjDetails(true));
 
         return view;
     }
 
+    private void fetchProjectDetails() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                card.setText(snapshot.child("StartupName").exists() ? snapshot.child("StartupName").getValue(String.class) : "No Startup Name Found");
+                found1.setText(snapshot.child("Founder1").exists() ? snapshot.child("Founder1").getValue(String.class) : "N/A");
+                found2.setText(snapshot.child("Founder2").exists() ? snapshot.child("Founder2").getValue(String.class) : "N/A");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("HomeFragment", "Failed to fetch project details", error.toException());
+            }
+        });
+    }
+
     private void openProjDetails(boolean fetchData) {
         Projdetails projdetailsFragment = new Projdetails();
-
-        // Pass a flag to indicate data fetching
         Bundle bundle = new Bundle();
         bundle.putBoolean("fetchData", fetchData);
         projdetailsFragment.setArguments(bundle);
 
-        // Replace current fragment with Projdetails
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, projdetailsFragment);
-        transaction.addToBackStack(null); // Allow back navigation
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 }
