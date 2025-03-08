@@ -1,5 +1,6 @@
 package com.example.miniproject;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -68,21 +69,24 @@ public class Grow extends Fragment {
     }
 
     private void addCardView(LinearLayout cardContainer, String startupName, String category) {
+        // Use cardContainer's context to avoid null reference
+        Context context = cardContainer.getContext();
+
         // Create CardView
-        CardView cardView = new CardView(getContext());
+        CardView cardView = new CardView(context);
         LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
         cardParams.setMargins(20, 20, 20, 20);
         cardView.setLayoutParams(cardParams);
-        cardView.setRadius(50);  // Make card corners more rounded
-        cardView.setCardBackgroundColor(Color.parseColor("#332400")); // Dark brown like the image
+        cardView.setRadius(50);
+        cardView.setCardBackgroundColor(Color.parseColor("#332400"));
         cardView.setAlpha(0.9f);
         cardView.setCardElevation(10);
 
         // Create main LinearLayout inside CardView
-        LinearLayout cardLayout = new LinearLayout(getContext());
+        LinearLayout cardLayout = new LinearLayout(context);
         cardLayout.setOrientation(LinearLayout.VERTICAL);
         cardLayout.setPadding(30, 30, 30, 30);
         cardLayout.setLayoutParams(new LinearLayout.LayoutParams(
@@ -91,7 +95,7 @@ public class Grow extends Fragment {
         ));
 
         // Title Section
-        LinearLayout titleLayout = new LinearLayout(getContext());
+        LinearLayout titleLayout = new LinearLayout(context);
         titleLayout.setOrientation(LinearLayout.HORIZONTAL);
         titleLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -99,7 +103,7 @@ public class Grow extends Fragment {
         ));
 
         // Title Label
-        TextView titleLabel = new TextView(getContext());
+        TextView titleLabel = new TextView(context);
         titleLabel.setText("Title:");
         titleLabel.setTextColor(Color.WHITE);
         titleLabel.setTextSize(18);
@@ -107,7 +111,7 @@ public class Grow extends Fragment {
         titleLabel.setPadding(0, 0, 20, 0);
 
         // Title Value
-        TextView titleText = new TextView(getContext());
+        TextView titleText = new TextView(context);
         titleText.setText(startupName);
         titleText.setTextColor(Color.parseColor("#27FFE7"));
         titleText.setTextSize(18);
@@ -117,7 +121,7 @@ public class Grow extends Fragment {
         titleLayout.addView(titleText);
 
         // Category Section
-        LinearLayout categoryLayout = new LinearLayout(getContext());
+        LinearLayout categoryLayout = new LinearLayout(context);
         categoryLayout.setOrientation(LinearLayout.HORIZONTAL);
         categoryLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -125,7 +129,7 @@ public class Grow extends Fragment {
         ));
 
         // Category Label
-        TextView categoryLabel = new TextView(getContext());
+        TextView categoryLabel = new TextView(context);
         categoryLabel.setText("Category:");
         categoryLabel.setTextColor(Color.WHITE);
         categoryLabel.setTextSize(18);
@@ -133,7 +137,7 @@ public class Grow extends Fragment {
         categoryLabel.setPadding(0, 10, 20, 0);
 
         // Category Value
-        TextView categoryText = new TextView(getContext());
+        TextView categoryText = new TextView(context);
         categoryText.setText(category);
         categoryText.setTextColor(Color.parseColor("#27FFE7"));
         categoryText.setTextSize(18);
@@ -143,7 +147,7 @@ public class Grow extends Fragment {
         categoryLayout.addView(categoryText);
 
         // Button Layout
-        LinearLayout buttonLayout = new LinearLayout(getContext());
+        LinearLayout buttonLayout = new LinearLayout(context);
         buttonLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -152,9 +156,9 @@ public class Grow extends Fragment {
         buttonLayout.setGravity(android.view.Gravity.END);
 
         // View Button
-        Button viewButton = new Button(getContext());
+        Button viewButton = new Button(context);
         viewButton.setText("View");
-        viewButton.setBackgroundResource(R.drawable.roundg); // Apply rounded corners
+        viewButton.setBackgroundResource(R.drawable.roundg);
         viewButton.setTextColor(Color.BLACK);
         viewButton.setTextSize(16);
         viewButton.setPadding(40, 10, 40, 10);
@@ -170,5 +174,4 @@ public class Grow extends Fragment {
         cardView.addView(cardLayout);
         cardContainer.addView(cardView);
     }
-
 }
