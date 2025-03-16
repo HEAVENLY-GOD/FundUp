@@ -40,11 +40,13 @@
         app:layout_constraintVertical_bias="0.17" />
 
     <Button
+        android:id="@+id/notification"
         style="@style/prithika"
         android:layout_width="129dp"
         android:layout_height="55dp"
         android:backgroundTint="#FBC02D"
         android:text="Notifier"
+        android:textAlignment="viewStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/myproject"
         app:layout_constraintHorizontal_bias="0.324"
@@ -53,7 +55,24 @@
         app:layout_constraintVertical_bias="0.31"
 />
 
+    <EditText
+        android:id="@+id/notifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/transparent"
+        android:drawableStart="@drawable/alert"
+        android:enabled="false"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.281"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.318" />
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="323dp"
         android:layout_height="314dp"
         android:backgroundTint="@color/black"
@@ -68,45 +87,45 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
             android:text="Title :"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:textSize="22sp"/>
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/card"
-            android:layout_width="170dp"
+            android:layout_width="225dp"
             android:layout_height="46dp"
             android:layout_marginLeft="78dp"
-            android:textColor="#27FFE7"
-            android:textSize="20sp"
             android:layout_marginTop="10dp"
             android:background="@drawable/transparent"
+            android:enabled="false"
             android:inputType="text"
-            android:textStyle="bold"
-            android:enabled="false"/>
+            android:textColor="#27FFE7"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Founders :"
-            android:textStyle="bold"
-            android:layout_marginTop="55dp"
             android:layout_marginLeft="15dp"
-            android:textColor="@color/white"/>
+            android:layout_marginTop="55dp"
+            android:text="Founders :"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
 
         <EditText
             android:id="@+id/found1"
             android:layout_width="186dp"
             android:layout_height="39dp"
-            android:layout_marginTop="65dp"
             android:layout_marginLeft="78dp"
-            android:textColor="#27FFE7"
+            android:layout_marginTop="65dp"
             android:background="@drawable/transparent"
             android:enabled="false"
+            android:textColor="#27FFE7"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -114,11 +133,11 @@
             android:id="@+id/found2"
             android:layout_width="186dp"
             android:layout_height="39dp"
-            android:layout_marginTop="95dp"
             android:layout_marginLeft="78dp"
-            android:textColor="#27FFE7"
+            android:layout_marginTop="95dp"
             android:background="@drawable/transparent"
             android:enabled="false"
+            android:textColor="#27FFE7"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -130,27 +149,27 @@
             android:src="@drawable/analytics" />
 
         <EditText
+            android:id="@+id/dome"
             android:layout_width="67dp"
             android:layout_height="59dp"
             android:layout_marginLeft="235dp"
             android:layout_marginTop="165dp"
-            android:text="0"
-            android:textSize="22sp"
-            android:textColor="#27FFE7"
             android:background="@drawable/transparent"
             android:enabled="false"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textColor="#27FFE7"
+            android:textSize="22sp" />
 
         <com.lottiefiles.dotlottie.core.widget.DotLottieAnimation
             android:id="@+id/h2o"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="34dp"
+            android:layout_marginBottom="-99dp"
             android:padding="0dp"
             app:dotLottie_autoplay="true"
             app:dotLottie_loop="false"
-            app:dotLottie_src="water.json"
-            android:layout_marginTop="34dp"
-            android:layout_marginBottom="-99dp">
+            app:dotLottie_src="water.json">
 
         </com.lottiefiles.dotlottie.core.widget.DotLottieAnimation>
 

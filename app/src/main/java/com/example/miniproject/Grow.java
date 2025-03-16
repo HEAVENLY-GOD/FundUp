@@ -32,13 +32,8 @@ public class Grow extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grow, container, false);
-
-        // Firebase reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Projects");
-
-        // Fetch and display all projects
         fetchAllProjects(view);
-
         return view;
     }
 
@@ -49,11 +44,11 @@ public class Grow extends Fragment {
                 if (snapshot.exists()) {
                     LinearLayout cardContainer = view.findViewById(R.id.cardContainer);
                     cardContainer.removeAllViews();
-
                     for (DataSnapshot projectSnapshot : snapshot.getChildren()) {
+                        String projectId = projectSnapshot.getKey();
                         String startupName = projectSnapshot.child("StartupName").getValue(String.class);
                         String category = projectSnapshot.child("Category").getValue(String.class);
-                        addCardView(cardContainer, startupName, category);
+                        addCardView(cardContainer, projectId, startupName, category);
                     }
                 } else {
                     Toast.makeText(getContext(), "No data found!", Toast.LENGTH_SHORT).show();
@@ -68,11 +63,9 @@ public class Grow extends Fragment {
         });
     }
 
-    private void addCardView(LinearLayout cardContainer, String startupName, String category) {
-        // Use cardContainer's context to avoid null reference
+    private void addCardView(LinearLayout cardContainer, String projectId, String startupName, String category) {
         Context context = cardContainer.getContext();
 
-        // Create CardView
         CardView cardView = new CardView(context);
         LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -85,7 +78,6 @@ public class Grow extends Fragment {
         cardView.setAlpha(0.9f);
         cardView.setCardElevation(10);
 
-        // Create main LinearLayout inside CardView
         LinearLayout cardLayout = new LinearLayout(context);
         cardLayout.setOrientation(LinearLayout.VERTICAL);
         cardLayout.setPadding(30, 30, 30, 30);
@@ -94,68 +86,22 @@ public class Grow extends Fragment {
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
 
-        // Title Section
-        LinearLayout titleLayout = new LinearLayout(context);
-        titleLayout.setOrientation(LinearLayout.HORIZONTAL);
-        titleLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        ));
-
-        // Title Label
-        TextView titleLabel = new TextView(context);
-        titleLabel.setText("Title:");
-        titleLabel.setTextColor(Color.WHITE);
-        titleLabel.setTextSize(18);
-        titleLabel.setTypeface(null, Typeface.BOLD);
-        titleLabel.setPadding(0, 0, 20, 0);
-
-        // Title Value
         TextView titleText = new TextView(context);
-        titleText.setText(startupName);
-        titleText.setTextColor(Color.parseColor("#27FFE7"));
+        titleText.setText("Title: " + startupName);
+        titleText.setTextColor(Color.parseColor("#FFFFFFFF"));
         titleText.setTextSize(18);
         titleText.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
 
-        titleLayout.addView(titleLabel);
-        titleLayout.addView(titleText);
-
-        // Category Section
-        LinearLayout categoryLayout = new LinearLayout(context);
-        categoryLayout.setOrientation(LinearLayout.HORIZONTAL);
-        categoryLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        ));
-
-        // Category Label
-        TextView categoryLabel = new TextView(context);
-        categoryLabel.setText("Category:");
-        categoryLabel.setTextColor(Color.WHITE);
-        categoryLabel.setTextSize(18);
-        categoryLabel.setTypeface(null, Typeface.BOLD);
-        categoryLabel.setPadding(0, 10, 20, 0);
-
-        // Category Value
         TextView categoryText = new TextView(context);
-        categoryText.setText(category);
-        categoryText.setTextColor(Color.parseColor("#27FFE7"));
+        categoryText.setText("Category: " + category);
+        categoryText.setTextColor(Color.parseColor("#FFFFFFFF"));
         categoryText.setTextSize(18);
         categoryText.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
 
-        categoryLayout.addView(categoryLabel);
-        categoryLayout.addView(categoryText);
+        LinearLayout buttonContainer = new LinearLayout(context);
+        buttonContainer.setGravity(android.view.Gravity.END);
+        buttonContainer.setPadding(0, 20, 0, 0);
 
-        // Button Layout
-        LinearLayout buttonLayout = new LinearLayout(context);
-        buttonLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        ));
-        buttonLayout.setPadding(0, 20, 0, 0);
-        buttonLayout.setGravity(android.view.Gravity.END);
-
-        // View Button
         Button viewButton = new Button(context);
         viewButton.setText("View");
         viewButton.setBackgroundResource(R.drawable.roundg);
@@ -163,14 +109,40 @@ public class Grow extends Fragment {
         viewButton.setTextSize(16);
         viewButton.setPadding(40, 10, 40, 10);
 
-        buttonLayout.addView(viewButton);
+        viewButton.setOnClickListener(v -> {
+            DatabaseReference domeRef = FirebaseDatabase.getInstance()
+                    .getReference("Projects")
+                    .child(projectId)
+                    .child("dome");
 
-        // Add Views to Card Layout
-        cardLayout.addView(titleLayout);
-        cardLayout.addView(categoryLayout);
-        cardLayout.addView(buttonLayout);
+            domeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    long currentDome = 0;
+                    if (snapshot.exists()) {
+                        currentDome = snapshot.getValue(Long.class);
+                    }
+                    domeRef.setValue(currentDome + 1);
+                }
 
-        // Add everything to CardView
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("GrowFragment", "Failed to update dome count", error.toException());
+                }
+            });
+
+            detail detailFragment = detail.newInstance(projectId);
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, detailFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        buttonContainer.addView(viewButton);
+        cardLayout.addView(titleText);
+        cardLayout.addView(categoryText);
+        cardLayout.addView(buttonContainer);
+
         cardView.addView(cardLayout);
         cardContainer.addView(cardView);
     }

@@ -3,16 +3,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fund"
-    android:background="@color/brown">
+    android:background="@drawable/fundup">
 
+
+    <!-- Title -->
     <TextView
+        android:id="@+id/growpage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fund"
-        android:layout_centerInParent="true"
-        android:textColor="@color/white"
-        android:textSize="32sp"
-        android:textStyle="bold" />
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true" />
+
+    <!-- Scrollable content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below ="@id/growpage"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/cardContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/black"
+                app:cardCornerRadius="28dp"
+                android:alpha="0.8">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="User :"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/user1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#27FFE7"
+                            android:fontFamily="sans-serif-black"
+                            android:textStyle="bold"
+                            android:background="@drawable/transparent"
+                            android:enabled="false"
+                            android:textSize="17sp"
+                            android:layout_marginLeft="55dp"/>
+
+
+                        <Button
+                            android:id="@+id/accept"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="208dp"
+                            android:text="Accept"
+                            android:backgroundTint="@color/white"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="35dp"/>
+
+                        <Button
+                            android:id="@+id/reject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Reject"
+                            android:backgroundTint="@color/white"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="35dp"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </RelativeLayout>

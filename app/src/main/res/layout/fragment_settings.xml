@@ -88,12 +88,12 @@
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="157dp"
-        android:layout_height="154dp"
+        android:layout_width="174dp"
+        android:layout_height="164dp"
         android:layout_above="@id/prof"
-        android:layout_marginBottom="105dp"
         android:layout_marginLeft="34dp"
-        android:src="@drawable/tojiprofile" />
+        android:layout_marginBottom="86dp"
+        android:src="@drawable/siva" />
 
     <TextView
         android:id="@+id/setname"
